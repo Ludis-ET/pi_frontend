@@ -1,3 +1,4 @@
+import { Button, Input } from "../../components";
 import { LeftSide } from "./LeftSide";
 
 export const Login = () => {
@@ -14,11 +15,13 @@ export const Login = () => {
             Login
           </header>
           <form>
-            <div>
-              <input type="tel" />
+            <div className="m-8">
+              <Input />
               <input type="password" name="" id="" />
             </div>
-            <button>Login</button>
+            <span className="w-full flex flex-wrap justify-center">
+              <Button text={"Login"} />
+            </span>
           </form>
         </div>
       </div>
