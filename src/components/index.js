@@ -1,2 +1,2 @@
-export { Button } from "./Button";
-export { Input } from "./Input";
+export { ButtonComp } from "./ButtonComp";
+export { InputComp } from "./InputComp";
