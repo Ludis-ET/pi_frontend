@@ -32,6 +32,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.3.0"],\
           ["@vitejs/plugin-react", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:4.3.1"],\
           ["autoprefixer", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:10.4.20"],\
+          ["daisyui", "npm:4.12.10"],\
           ["eslint", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:9.9.1"],\
           ["eslint-plugin-react", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:7.35.0"],\
           ["eslint-plugin-react-hooks", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:5.1.0-rc-fb9a90fa48-20240614"],\
@@ -1589,6 +1590,17 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["css-selector-tokenizer", [\
+      ["npm:0.8.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/css-selector-tokenizer-npm-0.8.0-b6bad298a3-10c0.zip/node_modules/css-selector-tokenizer/",\
+        "packageDependencies": [\
+          ["css-selector-tokenizer", "npm:0.8.0"],\
+          ["cssesc", "npm:3.0.0"],\
+          ["fastparse", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["cssesc", [\
       ["npm:3.0.0", {\
         "packageLocation": "../../../.yarn/berry/cache/cssesc-npm-3.0.0-15ec56f86f-10c0.zip/node_modules/cssesc/",\
@@ -1603,6 +1615,28 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/csstype-npm-3.1.3-e9a1c85013-10c0.zip/node_modules/csstype/",\
         "packageDependencies": [\
           ["csstype", "npm:3.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["culori", [\
+      ["npm:3.3.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/culori-npm-3.3.0-75ee2b3b84-10c0.zip/node_modules/culori/",\
+        "packageDependencies": [\
+          ["culori", "npm:3.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["daisyui", [\
+      ["npm:4.12.10", {\
+        "packageLocation": "../../../.yarn/berry/cache/daisyui-npm-4.12.10-983eb1119b-10c0.zip/node_modules/daisyui/",\
+        "packageDependencies": [\
+          ["daisyui", "npm:4.12.10"],\
+          ["css-selector-tokenizer", "npm:0.8.0"],\
+          ["culori", "npm:3.3.0"],\
+          ["picocolors", "npm:1.0.1"],\
+          ["postcss-js", "virtual:983eb1119b45bd1e09491f6fac1711920104ada495b8c5eb20bbab8faa3ee4eda33f5dbd82db2c863e60b66c5b0698599d43337e69d5765c7060d31b2d73c997#npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2250,6 +2284,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/fast-levenshtein-npm-2.0.6-fcd74b8df5-10c0.zip/node_modules/fast-levenshtein/",\
         "packageDependencies": [\
           ["fast-levenshtein", "npm:2.0.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["fastparse", [\
+      ["npm:1.1.2", {\
+        "packageLocation": "../../../.yarn/berry/cache/fastparse-npm-1.1.2-6a35154770-10c0.zip/node_modules/fastparse/",\
+        "packageDependencies": [\
+          ["fastparse", "npm:1.1.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3679,6 +3722,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.3.0"],\
           ["@vitejs/plugin-react", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:4.3.1"],\
           ["autoprefixer", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:10.4.20"],\
+          ["daisyui", "npm:4.12.10"],\
           ["eslint", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:9.9.1"],\
           ["eslint-plugin-react", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:7.35.0"],\
           ["eslint-plugin-react-hooks", "virtual:85a4fc6756de06573bda17f68560d5da18706b939b2c29c56c97cc3497fdbcfcb3a54ac72c184feef1ba88897ca82c9c1b7d90d4cab70162c5fbddfdad1121d9#npm:5.1.0-rc-fb9a90fa48-20240614"],\
@@ -3791,6 +3835,20 @@ const RAW_RUNTIME_STATE =
           ["@types/postcss", null],\
           ["camelcase-css", "npm:2.0.1"],\
           ["postcss", "npm:8.4.41"]\
+        ],\
+        "packagePeers": [\
+          "@types/postcss",\
+          "postcss"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:983eb1119b45bd1e09491f6fac1711920104ada495b8c5eb20bbab8faa3ee4eda33f5dbd82db2c863e60b66c5b0698599d43337e69d5765c7060d31b2d73c997#npm:4.0.1", {\
+        "packageLocation": "./.yarn/__virtual__/postcss-js-virtual-0bbb90673d/4/.yarn/berry/cache/postcss-js-npm-4.0.1-2c4ee70bf3-10c0.zip/node_modules/postcss-js/",\
+        "packageDependencies": [\
+          ["postcss-js", "virtual:983eb1119b45bd1e09491f6fac1711920104ada495b8c5eb20bbab8faa3ee4eda33f5dbd82db2c863e60b66c5b0698599d43337e69d5765c7060d31b2d73c997#npm:4.0.1"],\
+          ["@types/postcss", null],\
+          ["camelcase-css", "npm:2.0.1"],\
+          ["postcss", null]\
         ],\
         "packagePeers": [\
           "@types/postcss",\
