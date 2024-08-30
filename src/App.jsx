@@ -1,9 +1,7 @@
+import { AuthenticationRoute } from "./routes/AuthenticationRoute";
+
 function App() {
-  return (
-    <>
-    ludis
-    </>
-  )
+  return <AuthenticationRoute />;
 }
 
-export default App
+export default App;
