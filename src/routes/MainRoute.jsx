@@ -5,18 +5,19 @@ export const MainRoute = () => {
   const user = 1;
 
   return (
-    <Routes>
-      {user ? (
-        <>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </>
-      ) : (
-        <>
-          <Route path="*" element={<Login />} />
-        </>
-      )}
-    </Routes>
+    <div className="w-full h-full absolute">
+      <Routes>
+        {user ? (
+          <>
+            <Route exact path="/" element={<Home />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </>
+        ) : (
+          <>
+            <Route path="*" element={<Login />} />
+          </>
+        )}
+      </Routes>
+    </div>
   );
 };
