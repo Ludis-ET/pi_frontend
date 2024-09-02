@@ -1,5 +1,5 @@
 /* From Uiverse.io by adamgiebl */ 
-button {
+.btn {
   font-size: 18px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -21,7 +21,7 @@ button {
   font-weight: 700;
 }
 
-button:before {
+.btn:before {
   transition: 0.5s all ease;
   position: absolute;
   top: 0;
@@ -34,17 +34,17 @@ button:before {
   z-index: -1;
 }
 
-button:hover, button:focus {
+.btn:hover, .btn:focus {
   color: white;
 }
 
-button:hover:before, button:focus:before {
+.btn:hover:before, .btn:focus:before {
   transition: 0.5s all ease;
   left: 0;
   right: 0;
   opacity: 1;
 }
 
-button:active {
+.btn:active {
   transform: scale(0.9);
 }
