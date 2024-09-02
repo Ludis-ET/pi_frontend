@@ -1,11 +1,11 @@
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { AuthenticationRoute } from "./routes/AuthenticationRoute";
+import { MainRoute } from "./routes";
 
 function App() {
   return (
     <Router>
-      <AuthenticationRoute />
+      <MainRoute />
     </Router>
   );
 }
