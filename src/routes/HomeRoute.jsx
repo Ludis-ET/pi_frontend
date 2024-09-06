@@ -7,7 +7,7 @@ export const HomeRoute = () => {
   return (
     <div className="w-full h-full flex justify-between">
       <LeftBar />
-      <div className="w-1/2 flex flex-col">
+      <div className="w-1/2 flex flex-col min-h-screen">
         <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
