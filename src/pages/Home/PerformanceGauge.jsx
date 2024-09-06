@@ -9,8 +9,8 @@ export const PerformanceGauge = ({ progress }) => {
     <div className="bg-gray-200 rounded-lg flex items-center justify-center">
       <svg
         className="transform"
-        width="200"
-        height="200"
+        width="200px"
+        height="200px"
         viewBox="0 0 200 200"
       >
         <circle
