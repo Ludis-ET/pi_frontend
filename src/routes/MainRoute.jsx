@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Login, Home } from "../pages";
+import { HomeRoute } from "./HomeRoute";
+import { Login } from "../pages";
 
 export const MainRoute = () => {
   const user = 1;
@@ -7,16 +8,7 @@ export const MainRoute = () => {
   return (
     <div className="w-full h-full absolute">
       <Routes>
-        {user ? (
-          <>
-            <Route exact path="/" element={<Home />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </>
-        ) : (
-          <>
-            <Route path="*" element={<Login />} />
-          </>
-        )}
+        <Route path="*" element={user ? <HomeRoute /> : <Login />} />
       </Routes>
     </div>
   );
