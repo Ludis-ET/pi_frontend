@@ -1,5 +1,11 @@
+import { Header } from "./Header"
+import { Links } from "./Links"
+
 export const LeftBar = () => {
   return (
-    <div className="bg-purple-600 w-1/5 hidden lg:block">LeftBar</div>
+    <div className="bg-purple-600 w-1/5 hidden lg:block">
+      <Header />
+      <Links /> 
+    </div>
   )
 }
