@@ -1,5 +1,5 @@
 export const LeftBar = () => {
   return (
-    <div>LeftBar</div>
+    <div className="bg-purple-600 w-1/5">LeftBar</div>
   )
 }
