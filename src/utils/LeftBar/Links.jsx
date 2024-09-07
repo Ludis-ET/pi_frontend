@@ -21,6 +21,13 @@ export const Links = () => {
         <p>Discussion</p>
       </NavLink>
       <NavLink
+        to="/events"
+        className={({ isActive }) => (isActive ? `${cls} ${activeClass}` : cls)}
+      >
+        <i className="fa fa-calendar"></i>
+        <p>Events</p>
+      </NavLink>
+      <NavLink
         to="/fee"
         className={({ isActive }) => (isActive ? `${cls} ${activeClass}` : cls)}
       >

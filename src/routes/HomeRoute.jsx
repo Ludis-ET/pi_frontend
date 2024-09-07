@@ -1,6 +1,6 @@
 import { LeftBar, RightBar } from "../utils";
 import { Header } from "../components/Header";
-import { Home, Discussion, Four04, Fee } from "../pages";
+import { Home, Discussion, Four04, Fee, Event } from "../pages";
 import { Routes, Route } from "react-router-dom";
 
 export const HomeRoute = () => {
@@ -13,6 +13,7 @@ export const HomeRoute = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/discussion" element={<Discussion />} />
           <Route path="/fee" element={<Fee />} />
+          <Route path="/events" element={<Event />} />
           <Route path="*" element={<Four04 />} />
         </Routes>
       </div>
