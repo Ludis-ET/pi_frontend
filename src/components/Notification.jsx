@@ -27,7 +27,7 @@ export const Notification = () => {
       {show && (
         <div
           id="dropdownNotification"
-          className="z-20 absolute w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700"
+          className="z-20 absolute ml-[-300px] w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700"
           aria-labelledby="dropdownNotificationButton"
         >
           <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
