@@ -9,8 +9,8 @@ export const Links = () => {
         <p>Dashboard</p>
       </Link>
       <Link to="/" className={`${cls} `}>
-        <i className="fa fa-home"></i>
-        <p>Dashboard</p>
+        <i className="fa fa-comments"></i>
+        <p>Discussion</p>
       </Link>
       <Link to="/" className={`${cls} `}>
         <i className="fa fa-home"></i>
