@@ -1,12 +1,19 @@
 import { ButtonComp, DarkModeToggle, InputComp } from "../../components";
 import { LeftSide } from "./LeftSide";
 import Logo from "../../assets/logo.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context";
 
 export const Login = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  
+  const { loginUser } = useContext(AuthContext);
+
+  const log = async (e) => {
+    e.preventDefault();
+    await loginUser(phone, password);
+  };
+
   return (
     <>
       <div className="absolute z-30 left-[49%] top-4">
@@ -25,7 +32,7 @@ export const Login = () => {
               <img src={Logo} className="w-[300px]" alt="Logo" />
               Login
             </header>
-            <form className="">
+            <form onSubmit={(e) => log(e)}>
               <div className="m-8 flex flex-wrap gap-8 items-center justify-center ">
                 <InputComp
                   label="Phone-Number"

@@ -1,14 +1,14 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast"; // Importing toast
+import { toast } from "react-hot-toast";
 
 const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authTokens, setAuthTokens] = useState(() =>
+  const [authTokens, setauthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
@@ -18,31 +18,30 @@ export const AuthProvider = ({ children }) => {
       ? jwtDecode(localStorage.getItem("authTokens"))
       : null
   );
-  const [myProfile, setProfile] = useState(null);
+  const [myprofile, setProfile] = useState(null);
 
   const [loadingMyProfile, setLoadingMyProfile] = useState(true);
-
   useEffect(() => {
     if (authTokens && user) {
       const id = user.user_id;
       const getProfile = async () => {
         try {
           const token = authTokens ? authTokens.access : null;
-          const response = await fetch(`${backendUrl}api/profile/${id}`, {
+          const response = await fetch(`${backendUrl}auth/users/${id}`, {
             headers: {
-              Authorization: `Bearer ${token}`, // Corrected token type
+              Authorization: `JWT ${token}`,
             },
           });
           if (response.ok) {
             const data = await response.json();
             setProfile(data);
           } else {
-            console.error("Failed to fetch profile data:", response.statusText);
+            toast.error("Failed to fetch profile data");
           }
         } catch (error) {
-          console.error("Error fetching profile data:", error);
+          toast.error("Error fetching profile data");
         } finally {
-          setLoadingMyProfile(false); // Set loading state to false after fetching
+          setLoadingMyProfile(false);
         }
       };
       getProfile();
@@ -50,10 +49,9 @@ export const AuthProvider = ({ children }) => {
   }, [authTokens, user]);
 
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
 
-  const loginUser = async (e) => {
+  let loginUser = async (ph, pass) => {
     try {
       let response = await Promise.race([
         fetch(`${backendUrl}auth/jwt/create`, {
@@ -62,8 +60,8 @@ export const AuthProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: e.target.username.value,
-            password: e.target.password.value,
+            phone: ph,
+            password: pass,
           }),
         }),
         new Promise((_, reject) =>
@@ -72,22 +70,21 @@ export const AuthProvider = ({ children }) => {
       ]);
 
       let data = await response.json();
-
       if (response.status === 200) {
-        setAuthTokens(data);
+        setauthTokens(data);
         setUser(jwtDecode(data.access));
         localStorage.setItem("authTokens", JSON.stringify(data));
-        toast.success("Logged in successfully"); // Show success message
+        toast.success("Logged in successfully");
         navigate("/");
       } else {
-        toast.error("Invalid Credentials"); // Show error message
+        toast.error(data.detail);
       }
     } catch (error) {
-      toast.error(error.message); // Show error message
+      toast.error(error.message);
     }
   };
 
-  const updateToken = async () => {
+  let updateToken = async () => {
     try {
       let response = await Promise.race([
         fetch(`${backendUrl}auth/jwt/refresh/`, {
@@ -106,36 +103,36 @@ export const AuthProvider = ({ children }) => {
 
       let data = await response.json();
       if (response.status === 200) {
-        setAuthTokens(data);
+        setauthTokens(data);
         setUser(jwtDecode(data.access));
         localStorage.setItem("authTokens", JSON.stringify(data));
       } else {
         setUser(null);
-        setAuthTokens(null);
+        setauthTokens(null);
         localStorage.removeItem("authTokens");
       }
       if (loading) {
         setLoading(false);
       }
     } catch (error) {
-      toast.error(error.message); // Show error message
+      toast.error(error.message);
     }
   };
 
-  const logoutUser = () => {
+  let logoutUser = () => {
     setUser(null);
-    setAuthTokens(null);
+    setauthTokens(null);
     localStorage.removeItem("authTokens");
-    toast.success("Logged out successfully"); // Show success message
+    toast.success("Logged out successfully");
     navigate("/login");
   };
 
   const value = {
-    user: user,
-    loginUser: loginUser,
-    logoutUser: logoutUser,
-    myProfile: myProfile,
-    loadingMyProfile: loadingMyProfile,
+    user,
+    loginUser,
+    logoutUser,
+    myprofile,
+    loadingMyProfile,
   };
 
   useEffect(() => {
