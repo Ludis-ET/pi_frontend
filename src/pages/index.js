@@ -4,3 +4,4 @@ export { Discussion } from "./Chat/Discussion";
 export { Four04 } from "./Four04";
 export { Fee } from "./Payment/Fee";
 export { Event } from "./Event/Event";
+export { Logout } from "./Authentication/Logout";

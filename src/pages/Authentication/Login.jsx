@@ -7,11 +7,14 @@ import { AuthContext } from "../../context";
 export const Login = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { loginUser } = useContext(AuthContext);
 
   const log = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await loginUser(phone, password);
+    setLoading(false);
   };
 
   return (
@@ -46,7 +49,7 @@ export const Login = () => {
                 />
               </div>
               <span className="w-full flex flex-wrap justify-center">
-                <ButtonComp text={"Login"} />
+                <ButtonComp text={"Login"} load={loading} />
               </span>
             </form>
           </div>
