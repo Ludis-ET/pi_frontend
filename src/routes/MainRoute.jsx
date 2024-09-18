@@ -3,7 +3,7 @@ import { HomeRoute } from "./HomeRoute";
 import { Login } from "../pages";
 
 export const MainRoute = () => {
-  const user = 1;
+  const user = 0;
 
   return (
     <div className="w-full bg-white dark:bg-gray-800 h-full absolute">

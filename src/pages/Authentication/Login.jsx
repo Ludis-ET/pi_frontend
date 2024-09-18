@@ -1,8 +1,12 @@
 import { ButtonComp, DarkModeToggle, InputComp } from "../../components";
 import { LeftSide } from "./LeftSide";
 import Logo from "../../assets/logo.png";
+import { useState } from "react";
 
 export const Login = () => {
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  
   return (
     <>
       <div className="absolute z-30 left-[49%] top-4">
@@ -23,8 +27,16 @@ export const Login = () => {
             </header>
             <form className="">
               <div className="m-8 flex flex-wrap gap-8 items-center justify-center ">
-                <InputComp label="Phone-Number" type="tel" />
-                <InputComp label="Password" type="password" />
+                <InputComp
+                  label="Phone-Number"
+                  type="tel"
+                  onchange={setPhone}
+                />
+                <InputComp
+                  label="Password"
+                  onchange={setPassword}
+                  type="password"
+                />
               </div>
               <span className="w-full flex flex-wrap justify-center">
                 <ButtonComp text={"Login"} />
