@@ -3,7 +3,7 @@ import { Links } from "./Links";
 
 export const LeftBar = () => {
   return (
-    <div className="bg-purple-600 w-1/5 hidden lg:flex flex-col gap-12">
+    <div className="bg-[#af84ff] w-1/5 hidden lg:flex flex-col gap-12">
       <Header />
       <Links />
       <footer className="absolute bottom-4 flex flex-col items-center text-center text-surface text-white">
@@ -59,9 +59,7 @@ export const LeftBar = () => {
           </div>
         </div>
         <div className="p-4">
-          <p className="text-neutral-200">
-            © 2024 Copyright Ludis
-          </p>
+          <p className="text-neutral-200">© 2024 Copyright Ludis</p>
         </div>
       </footer>
     </div>
