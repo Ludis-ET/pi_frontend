@@ -14,14 +14,14 @@ export const StudentProvider = ({ children }) => {
   useEffect(() => {
     const getStudent = async () => {
       try {
-        let response = await Promise.race([
+        const response = await Promise.race([
           fetch(`${backendUrl}user/students/?parent=${myprofile.phone}`),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Request timed out")), 20000)
           ),
         ]);
 
-        let data = await response.json();
+        const data = await response.json();
         if (response.status === 200) {
           setStudents(data);
         } else {
@@ -50,6 +50,6 @@ export const StudentProvider = ({ children }) => {
   };
 
   return (
-    <StudentContext.Provider value={value}> {children}</StudentContext.Provider>
+    <StudentContext.Provider value={value}>{children}</StudentContext.Provider>
   );
 };
