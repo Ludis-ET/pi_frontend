@@ -20,7 +20,11 @@ export const StudentProvider = ({ children }) => {
       ]);
 
       let data = await response.json();
-      console.log(data);
+      if (response.status === 200) {
+        setStudent(data)
+      } else {
+        toast.error(data.detail);
+      }
     } catch (error) {
       toast.error(error.message);
     }
@@ -29,6 +33,7 @@ export const StudentProvider = ({ children }) => {
   if (myprofile) {
     getStudent();
   }
+      console.log(student);
   return (
     <StudentContext.Provider value=""> {children}</StudentContext.Provider>
   );
