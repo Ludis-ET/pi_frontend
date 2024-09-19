@@ -33,7 +33,7 @@ export const Top = () => {
       )}
 
       {isLoading ? (
-        <div className="w-full h-8 bg-gray-300 animate-pulse rounded-md mt-2"></div>
+        <div className="w-1/2 h-8 bg-gray-300 animate-pulse rounded-md mt-2"></div>
       ) : (
         <select
           onChange={handleSelectChange}
