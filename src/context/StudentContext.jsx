@@ -8,7 +8,8 @@ export const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
   const { myprofile } = useContext(AuthContext);
-  const [student, setStudent] = useState({});
+  const [students, setStudents] = useState({});
+  const [currentStudent, setCurrentStudent] = useState(null);
 
   const getStudent = async () => {
     try {
@@ -21,7 +22,7 @@ export const StudentProvider = ({ children }) => {
 
       let data = await response.json();
       if (response.status === 200) {
-        setStudent(data)
+        setStudents(data);
       } else {
         toast.error(data.detail);
       }
@@ -30,10 +31,10 @@ export const StudentProvider = ({ children }) => {
     }
   };
 
-  if (myprofile) {
+  if (myprofile && !students) {
     getStudent();
   }
-      console.log(student);
+  console.log(students);
   return (
     <StudentContext.Provider value=""> {children}</StudentContext.Provider>
   );
