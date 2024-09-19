@@ -9,7 +9,7 @@ export const StudentContext = createContext();
 export const StudentProvider = ({ children }) => {
   const { myprofile } = useContext(AuthContext);
   const [students, setStudents] = useState([]);
-  const [currentStudent, setCurrentStudent] = useState(null);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     const getStudent = async () => {
@@ -38,14 +38,18 @@ export const StudentProvider = ({ children }) => {
   }, [myprofile, students]);
 
   useEffect(() => {
-    if (students.length > 0 && !currentStudent) {
-      setCurrentStudent(students[0]);
+    if (students.length > 0 && !student) {
+      setStudent(students[0]);
     }
-  }, [students, currentStudent]);
-  
+  }, [students, student]);
 
-  
+  const value = {
+    students,
+    student,
+    setStudent,
+  };
+
   return (
-    <StudentContext.Provider value=""> {children}</StudentContext.Provider>
+    <StudentContext.Provider value={value}> {children}</StudentContext.Provider>
   );
 };
