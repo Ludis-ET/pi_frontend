@@ -1,25 +1,35 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useFetchTeachers } from "../../hooks";
 import { AuthContext } from "../../context";
 
 export const List = () => {
   const { setLoading } = useContext(AuthContext);
+  const [searchTerm, setSearchTerm] = useState("");
+
   setLoading(true);
   const teachers = useFetchTeachers();
-  setLoading(false);
+    setLoading(false);
+    
+  const filteredTeachers = teachers
+    ? teachers.filter((teacher) =>
+        teacher.full_name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="sidebar hidden lg:flex w-1/3 flex-2 flex-col pr-6">
       <div className="search flex-2 pb-6 px-2">
         <input
           type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="outline-none py-2 block w-full bg-transparent border-b-2 border-gray-200"
           placeholder="Search"
         />
       </div>
       <div className="flex-1 h-full overflow-auto px-2">
-        {teachers &&
-          teachers.map((teacher) => (
+        {filteredTeachers.length > 0 ? (
+          filteredTeachers.map((teacher) => (
             <div
               key={teacher.id}
               className="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white mb-4 rounded p-4 flex shadow-md"
@@ -36,7 +46,7 @@ export const List = () => {
               </div>
               <div className="flex-1 px-2">
                 <div className="truncate w-32">
-                  <span className="font-semibold">{teacher.name}</span>
+                  <span className="font-semibold">{teacher.full_name}</span>
                 </div>
                 <div>
                   <small className="text-gray-600">Yea, Sure!</small>
@@ -53,7 +63,10 @@ export const List = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <p>No teachers found</p>
+        )}
       </div>
     </div>
   );
