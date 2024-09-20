@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       ? jwtDecode(localStorage.getItem("authTokens"))
       : null
   );
-  const [myProfile, setProfile] = useState(null);
+  const [myprofile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
             toast.error("Failed to fetch profile data");
           }
         } catch (error) {
-          toast.error(error.message);
+          toast.error("Error fetching profile data");
         } finally {
           setLoading(false);
         }
@@ -128,10 +128,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   let logoutUser = () => {
+    setLoading(true);
     setUser(null);
     setAuthTokens(null);
     localStorage.removeItem("authTokens");
     toast.success("Logged out successfully");
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -152,9 +154,10 @@ export const AuthProvider = ({ children }) => {
     user,
     loginUser,
     logoutUser,
-    myProfile,
+    myprofile,
     authTokens,
     loading,
+    setLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

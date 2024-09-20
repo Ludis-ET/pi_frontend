@@ -7,13 +7,14 @@ const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 export const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
-  const { myprofile, authTokens } = useContext(AuthContext);
+  const { myprofile, authTokens, setLoading } = useContext(AuthContext);
   const [students, setStudents] = useState([]);
   const [student, setStudent] = useState(null);
   const [results, setResults] = useState(null);
 
   useEffect(() => {
     const getStudent = async () => {
+      setLoading(true);
       try {
         const response = await Promise.race([
           fetch(`${backendUrl}api/students/?parent=${myprofile.id}`, {
@@ -29,6 +30,7 @@ export const StudentProvider = ({ children }) => {
         const data = await response.json();
         if (response.status === 200) {
           setStudents(data);
+          setLoading(false);
         } else {
           toast.error(data.detail);
         }
@@ -50,6 +52,7 @@ export const StudentProvider = ({ children }) => {
 
   useEffect(() => {
     const getResult = async () => {
+      setLoading(true);
       try {
         const response = await Promise.race([
           fetch(`${backendUrl}api/results/?student=${student.id}`, {
@@ -64,6 +67,7 @@ export const StudentProvider = ({ children }) => {
 
         const data = await response.json();
         if (response.status === 200) {
+          setLoading(false);
           setResults(data);
         } else {
           toast.error(data.detail);
@@ -78,7 +82,6 @@ export const StudentProvider = ({ children }) => {
     }
   }, [myprofile, student, authTokens]);
 
-  console.log(results)
   const value = {
     students,
     student,

@@ -17,7 +17,6 @@ export const ResultsTable = () => {
   };
 
   const subjects = {};
-console.log(results)
   results.forEach(({ score, test_type, subject }) => {
     if (!subjects[subject.id]) {
       subjects[subject.id] = {

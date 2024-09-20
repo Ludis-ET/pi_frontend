@@ -17,7 +17,6 @@ export const Top = () => {
         return "th";
     }
   }
-  console.log(student);
   return (
     <div className="w-full flex justify-center items-center">
       <div className="flex gap-2">
