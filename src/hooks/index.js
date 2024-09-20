@@ -1,1 +1,1 @@
-export { FetchTeachers } from "./FetchTeachers";
+export { useFetchTeachers } from "./useFetchTeachers";

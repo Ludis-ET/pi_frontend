@@ -22,11 +22,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const isTokenExpired = (token) => {
-    const decodedToken = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-    return decodedToken.exp < currentTime;
-  };
 
   useEffect(() => {
     if (authTokens && user) {
@@ -93,7 +88,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   let updateToken = async () => {
-    if (authTokens && !isTokenExpired(authTokens.access)) {
+    if (authTokens) {
       try {
         let response = await Promise.race([
           fetch(`${backendUrl}auth/jwt/refresh/`, {
@@ -137,9 +132,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (authTokens && !loading) {
-      updateToken();
-    }
 
     let interval = setInterval(() => {
       if (authTokens) {
