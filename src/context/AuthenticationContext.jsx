@@ -130,6 +130,7 @@ export const AuthProvider = ({ children }) => {
     loginUser,
     logoutUser,
     myprofile,
+    authTokens,
     loadingMyProfile,
   };
 

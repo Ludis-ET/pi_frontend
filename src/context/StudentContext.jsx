@@ -7,15 +7,18 @@ const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 export const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
-  const { myprofile } = useContext(AuthContext);
+  const { myprofile, authTokens } = useContext(AuthContext);
   const [students, setStudents] = useState([]);
   const [student, setStudent] = useState(null);
-
   useEffect(() => {
     const getStudent = async () => {
       try {
         const response = await Promise.race([
-          fetch(`${backendUrl}user/students/?parent=${myprofile.phone}`),
+          fetch(`${backendUrl}api/students/?parent=${myprofile.id}`, {
+            headers: {
+              Authorization: `Bearer ${authTokens.access}`,
+            },
+          }),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Request timed out")), 20000)
           ),
@@ -32,10 +35,10 @@ export const StudentProvider = ({ children }) => {
       }
     };
 
-    if (myprofile && students.length === 0) {
+    if (myprofile && students.length === 0 && authTokens) {
       getStudent();
     }
-  }, [myprofile, students]);
+  }, [myprofile, students, authTokens]);
 
   useEffect(() => {
     if (students.length > 0 && !student) {
