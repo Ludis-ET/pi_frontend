@@ -6,7 +6,6 @@ import { Chat } from "./Chat";
 export const Discussion = () => {
   const [selected, setSelected] = useState(null);
 
-  console.log(selected);
   return (
     <div className="w-full h-screen text-black ">
       <div className="flex h-full">
