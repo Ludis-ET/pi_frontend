@@ -2,14 +2,14 @@ import { useContext, useState } from "react";
 import { useFetchTeachers } from "../../hooks";
 import { AuthContext } from "../../context";
 
-export const List = () => {
+export const List = ({ setSelected, selected }) => {
   const { setLoading } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
 
   setLoading(true);
   const teachers = useFetchTeachers();
-    setLoading(false);
-    
+  setLoading(false);
+
   const filteredTeachers = teachers
     ? teachers.filter((teacher) =>
         teacher.full_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -32,7 +32,12 @@ export const List = () => {
           filteredTeachers.map((teacher) => (
             <div
               key={teacher.id}
-              className="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white mb-4 rounded p-4 flex shadow-md"
+              onClick={() => setSelected(teacher)}
+              className={`entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white mb-4 rounded p-4 flex shadow-md border-l-2 ${
+                selected && selected.id === teacher.id
+                  ? "border-purple-500"
+                  : "border-transparent"
+              }`}
             >
               <div className="flex-2">
                 <div className="w-12 h-12 relative">
