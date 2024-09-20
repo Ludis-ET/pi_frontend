@@ -10,6 +10,7 @@ export const StudentProvider = ({ children }) => {
   const { myprofile, authTokens } = useContext(AuthContext);
   const [students, setStudents] = useState([]);
   const [student, setStudent] = useState(null);
+  
   useEffect(() => {
     const getStudent = async () => {
       try {
