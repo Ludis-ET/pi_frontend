@@ -27,14 +27,14 @@ export const AuthProvider = ({ children }) => {
       const getProfile = async () => {
         try {
           const token = authTokens ? authTokens.access : null;
-          const response = await fetch(`${backendUrl}auth/users/${id}`, {
+          const response = await fetch(`${backendUrl}api/parents`, {
             headers: {
-              Authorization: `JWT ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           if (response.ok) {
             const data = await response.json();
-            setProfile(data);
+            setProfile(data[0]);
           } else {
             toast.error("Failed to fetch profile data");
           }
@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
       getProfile();
     }
   }, [authTokens, user]);
-
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
