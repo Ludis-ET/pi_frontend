@@ -8,7 +8,7 @@ import { AuthContext } from "../context";
 export const HomeRoute = () => {
   const { loading } = useContext(AuthContext);
   return (
-    <div className="w-full h-full flex justify-between">
+    <div className="w-full h-full overflow-hidden flex justify-between">
       <LeftBar />
       <div className="lg:w-1/2 w-screen flex flex-col min-h-screen">
         <Header />
