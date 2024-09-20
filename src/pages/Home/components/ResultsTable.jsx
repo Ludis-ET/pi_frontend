@@ -1,27 +1,54 @@
-const subjects = [
-  { name: "Mathematics", midExam: 13, test: 25, assignment: 20, final: 25 },
-  { name: "Science", midExam: 5, test: 20, assignment: 15, final: 22 },
-  { name: "History", midExam: 7, test: 22, assignment: 18, final: 30 },
-  { name: "English", midExam: 8, test: 20, assignment: 15, final: 19 },
-  { name: "Geography", midExam: 6, test: 20, assignment: 15, final: 20 },
-  { name: "Physics", midExam: 8, test: 20, assignment: 18, final: 12 },
-  { name: "Chemistry", midExam: 8, test: 20, assignment: 12, final: 35 },
-  { name: "Biology", midExam: 8, test: 25, assignment: 18, final: 0 },
-  {
-    name: "Computer Science",
-    midExam: 10,
-    test: 25,
-    assignment: 2,
-    final: 9,
-  },
-];
-
-const calculateTotal = (subject) =>
-  subject.midExam + subject.test + subject.assignment + subject.final;
-
-const determineStatus = (total) => (total >= 50 ? "Pass" : "Fail");
+import { useContext } from "react";
+import { StudentContext } from "../../../context";
 
 export const ResultsTable = () => {
+  const { results } = useContext(StudentContext);
+
+  if (!results) {
+    return <div>Loading...</div>;
+  }
+
+  const calculateTotal = (scores) => {
+    return scores.reduce((acc, curr) => acc + curr.score, 0);
+  };
+
+  const determineStatus = (total) => {
+    return total >= 50 ? "Pass" : "Fail";
+  };
+
+  const subjects = {};
+console.log(results)
+  results.forEach(({ score, test_type, subject }) => {
+    if (!subjects[subject.id]) {
+      subjects[subject.id] = {
+        name: subject.name,
+        midExam: 0,
+        test: 0,
+        assignment: 0,
+        final: 0,
+      };
+    }
+
+    switch (test_type) {
+      case "midterm":
+        subjects[subject.id].midExam += score;
+        break;
+      case "quiz":
+        subjects[subject.id].test += score;
+        break;
+      case "assignment":
+        subjects[subject.id].assignment += score;
+        break;
+      case "final":
+        subjects[subject.id].final += score;
+        break;
+      default:
+        break;
+    }
+  });
+
+  const subjectArray = Object.values(subjects);
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -48,8 +75,14 @@ export const ResultsTable = () => {
           </tr>
         </thead>
         <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-          {subjects.map((subject) => {
-            const total = calculateTotal(subject);
+          {subjectArray.map((subject) => {
+            const total = calculateTotal([
+              { score: subject.midExam },
+              { score: subject.test },
+              { score: subject.assignment },
+              { score: subject.final },
+            ]);
+
             return (
               <tr key={subject.name}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center">

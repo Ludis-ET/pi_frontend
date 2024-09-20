@@ -8,7 +8,7 @@ const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authTokens, setauthTokens] = useState(() =>
+  const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
@@ -18,13 +18,21 @@ export const AuthProvider = ({ children }) => {
       ? jwtDecode(localStorage.getItem("authTokens"))
       : null
   );
-  const [myprofile, setProfile] = useState(null);
+  const [myProfile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const [loadingMyProfile, setLoadingMyProfile] = useState(true);
+  const isTokenExpired = (token) => {
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    return decodedToken.exp < currentTime;
+  };
+
   useEffect(() => {
     if (authTokens && user) {
       const id = user.user_id;
       const getProfile = async () => {
+        setLoading(true);
         try {
           const token = authTokens ? authTokens.access : null;
           const response = await fetch(`${backendUrl}api/parents`, {
@@ -41,17 +49,16 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
           toast.error("Error fetching profile data");
         } finally {
-          setLoadingMyProfile(false);
+          setLoading(false);
         }
       };
       getProfile();
     }
   }, [authTokens, user]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   let loginUser = async (ph, pass) => {
     try {
+      setLoading(true);
       let response = await Promise.race([
         fetch(`${backendUrl}auth/jwt/create`, {
           method: "POST",
@@ -70,7 +77,7 @@ export const AuthProvider = ({ children }) => {
 
       let data = await response.json();
       if (response.status === 200) {
-        setauthTokens(data);
+        setAuthTokens(data);
         setUser(jwtDecode(data.access));
         localStorage.setItem("authTokens", JSON.stringify(data));
         toast.success("Logged in successfully");
@@ -80,73 +87,75 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   let updateToken = async () => {
-    try {
-      let response = await Promise.race([
-        fetch(`${backendUrl}auth/jwt/refresh/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            refresh: authTokens?.refresh,
+    if (authTokens && !isTokenExpired(authTokens.access)) {
+      try {
+        let response = await Promise.race([
+          fetch(`${backendUrl}auth/jwt/refresh/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              refresh: authTokens?.refresh,
+            }),
           }),
-        }),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Request timed out")), 20000)
-        ),
-      ]);
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 20000)
+          ),
+        ]);
 
-      let data = await response.json();
-      if (response.status === 200) {
-        setauthTokens(data);
-        setUser(jwtDecode(data.access));
-        localStorage.setItem("authTokens", JSON.stringify(data));
-      } else {
-        setUser(null);
-        setauthTokens(null);
-        localStorage.removeItem("authTokens");
+        let data = await response.json();
+        if (response.status === 200) {
+          setAuthTokens(data);
+          setUser(jwtDecode(data.access));
+          localStorage.setItem("authTokens", JSON.stringify(data));
+        } else {
+          logoutUser();
+        }
+      } catch (error) {
+        toast.error(error.message);
+        logoutUser();
       }
-      if (loading) {
-        setLoading(false);
-      }
-    } catch (error) {
-      toast.error(error.message);
+    } else {
+      logoutUser();
     }
   };
 
   let logoutUser = () => {
     setUser(null);
-    setauthTokens(null);
+    setAuthTokens(null);
     localStorage.removeItem("authTokens");
     toast.success("Logged out successfully");
   };
+
+  useEffect(() => {
+    if (authTokens && !loading) {
+      updateToken();
+    }
+
+    let interval = setInterval(() => {
+      if (authTokens) {
+        updateToken();
+      }
+    }, 1000 * 60 * 14);
+
+    return () => clearInterval(interval);
+  }, [authTokens]);
 
   const value = {
     user,
     loginUser,
     logoutUser,
-    myprofile,
+    myProfile,
     authTokens,
-    loadingMyProfile,
+    loading,
   };
-
-  useEffect(() => {
-    if (loading) {
-      updateToken();
-    }
-
-    let day = 1000 * 60 * 60 * 24;
-    let interval = setInterval(() => {
-      if (authTokens) {
-        updateToken();
-      }
-    }, day);
-    return () => clearInterval(interval);
-  }, [authTokens, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -10,7 +10,8 @@ export const StudentProvider = ({ children }) => {
   const { myprofile, authTokens } = useContext(AuthContext);
   const [students, setStudents] = useState([]);
   const [student, setStudent] = useState(null);
-  
+  const [results, setResults] = useState(null);
+
   useEffect(() => {
     const getStudent = async () => {
       try {
@@ -47,9 +48,41 @@ export const StudentProvider = ({ children }) => {
     }
   }, [students, student]);
 
+  useEffect(() => {
+    const getResult = async () => {
+      try {
+        const response = await Promise.race([
+          fetch(`${backendUrl}api/results/?student=${student.id}`, {
+            headers: {
+              Authorization: `Bearer ${authTokens.access}`,
+            },
+          }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 20000)
+          ),
+        ]);
+
+        const data = await response.json();
+        if (response.status === 200) {
+          setResults(data);
+        } else {
+          toast.error(data.detail);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    if (myprofile && student && authTokens) {
+      getResult();
+    }
+  }, [myprofile, student, authTokens]);
+
+  console.log(results)
   const value = {
     students,
     student,
+    results,
     setStudent,
   };
 
