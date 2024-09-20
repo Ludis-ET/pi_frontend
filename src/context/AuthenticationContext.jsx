@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
             toast.error("Failed to fetch profile data");
           }
         } catch (error) {
-          toast.error("Error fetching profile data");
+          toast.error(error.message);
         } finally {
           setLoading(false);
         }

@@ -12,7 +12,7 @@ export const HomeRoute = () => {
       <LeftBar />
       <div className="lg:w-1/2 w-screen flex flex-col min-h-screen">
         <Header />
-        {!loading ? (
+        {loading ? (
           <Routes>
             <Route path="*" element={<Loading />} />
           </Routes>
