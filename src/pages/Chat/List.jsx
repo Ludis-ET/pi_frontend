@@ -1,20 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useFetchTeachers } from "../../hooks";
 import { AuthContext } from "../../context";
 
 export const List = ({ setSelected, selected }) => {
   const { setLoading } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
-
-  setLoading(true);
+  const [filteredTeachers, setFilteredTeachers] = useState([]);
   const teachers = useFetchTeachers();
-  setLoading(false);
 
-  const filteredTeachers = teachers
-    ? teachers.filter((teacher) =>
+  useEffect(() => {
+    if (teachers) {
+      setLoading(true);
+      const filtered = teachers.filter((teacher) =>
         teacher.full_name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : [];
+      );
+      setFilteredTeachers(filtered);
+      setLoading(false);
+    }
+  }, [teachers, searchTerm, setLoading]);
 
   return (
     <div className="sidebar hidden lg:flex w-1/3 flex-2 flex-col pr-6">
