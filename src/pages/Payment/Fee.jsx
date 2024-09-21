@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../../components/css/Scroll.css";
 import { AuthContext } from "../../context";
-import { useFetchFee } from "../../hooks/useFetchFee";
+import { useFetchFee } from "../../hooks";
 
 export const Fee = () => {
   const { setLoading } = useContext(AuthContext);
