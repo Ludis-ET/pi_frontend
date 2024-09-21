@@ -15,7 +15,7 @@ export const FootBar = () => {
   const inactiveClass = "text-black dark:text-white";
 
   return (
-    <div className="lg:hidden bg-white absolute bottom-0 left-0 w-full p-2 flex justify-center items-center gap-4">
+    <div className="lg:hidden bg-white dark:bg-gray-800 absolute bottom-0 left-0 w-full p-2 flex justify-center items-center gap-4">
       {menuItems.map((item) => (
         <NavLink
           key={item.to}

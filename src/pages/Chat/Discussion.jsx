@@ -5,7 +5,8 @@ import { Chat } from "./Chat";
 
 export const Discussion = () => {
   const [selected, setSelected] = useState(null);
-
+  const [side, setSide] = useState(true);
+  console.log(side);
   return (
     <div className="w-full h-screen text-black ">
       <div className="flex h-full">
@@ -23,6 +24,7 @@ export const Discussion = () => {
                       strokeWidth="2"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      onClick={() => setSide(!side)}
                     >
                       <path d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -40,7 +42,12 @@ export const Discussion = () => {
 
             <div className="main flex-1 flex flex-col">
               <div className="flex-1 flex h-full">
-                <List setSelected={setSelected} selected={selected} />
+                <List
+                  setSelected={setSelected}
+                  selected={selected}
+                  setSide={setSide}
+                  side={side}
+                />
 
                 {!selected ? (
                   <div className="w-full h-full flex justify-center items-center">
