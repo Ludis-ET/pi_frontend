@@ -56,8 +56,8 @@ export const Calendar = () => {
           key={`current-${i}`}
           className={`px-1 w-14 flex justify-center items-center border ${
             isToday
-              ? "bg-green-500 text-white border-green-500 rounded-2xl shadow-md"
-              : "hover:border-green-500 hover:text-green-500 cursor-pointer"
+              ? "bg-purple-500 text-white border-purple-500 rounded-2xl shadow-md"
+              : "hover:border-purple-500 hover:text-purple-500 cursor-pointer"
           }`}
         >
           {i}
@@ -134,7 +134,7 @@ export const Calendar = () => {
           {dayNames.map((day) => (
             <span
               key={day}
-              className="px-3 border rounded-sm w-14 h-5 flex items-center justify-center border-green-500 text-green-500 shadow-md"
+              className="px-3 border rounded-sm w-14 h-5 flex items-center justify-center border-purple-500 text-purple-500 shadow-md"
             >
               {day}
             </span>
