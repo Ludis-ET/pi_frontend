@@ -37,7 +37,7 @@ export const Notification = () => {
     };
 
     fetchNotifications();
-  }, []);
+  }, [show]);
   const timeAgo = (date) => {
     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
     let interval = Math.floor(seconds / 31536000);
