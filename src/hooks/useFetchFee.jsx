@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context";
 
 export const useFetchFee = () => {
-  const { authTokens, myprofile } = useContext(AuthContext);
+  const { authTokens, myprofile, setLoading } = useContext(AuthContext);
   const [fee, setFee] = useState(null);
   const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
@@ -27,7 +27,9 @@ export const useFetchFee = () => {
       }
     };
 
+    setLoading(true);
     fetchFee();
+    setLoading(false);
   }, [backendUrl]);
   return fee;
 };

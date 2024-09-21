@@ -1,36 +1,53 @@
-import "../../components/css/Scroll.css"
+import { useState, useEffect } from "react";
+import "../../components/css/Scroll.css";
+import { useFetchEvent } from "../../hooks";
 
 export const Event = () => {
+  const events = useFetchEvent();
+  const [sortedEvents, setSortedEvents] = useState([]);
+
+  useEffect(() => {
+    if (events && events.length > 0) {
+      const sorted = [...events].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+      setSortedEvents(sorted);
+    }
+  }, [events]);
+
   return (
     <div className="container mx-auto my-10 p-4 max-h-full overflow-y-scroll">
       <div className="relative border-l border-gray-200">
-        {/* Card 1 */}
-        <div className="mb-8 flex items-center justify-between">
-          <div className="order-1 w-5/12"></div>
-          <div className="z-20 flex items-center order-1 bg-purple-500 shadow-xl w-8 h-8 rounded-full"></div>
-          <div className="order-1 bg-purple-500 rounded-lg shadow-xl w-5/12 px-6 py-4">
-            <h3 className="mb-3 font-bold text-white text-xl">2002</h3>
-            <h4 className="text-lg font-semibold text-white">Title 1</h4>
-            <p className="text-sm leading-snug tracking-wide text-white text-opacity-100">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-              itaque hic.
-            </p>
-          </div>
-        </div>
-
-        {/* Card 2 */}
-        <div className="mb-8 flex items-center justify-between flex-row-reverse">
-          <div className="order-1 w-5/12"></div>
-          <div className="z-20 flex items-center order-1 bg-purple-500 shadow-xl w-8 h-8 rounded-full"></div>
-          <div className="order-1 bg-purple-500 rounded-lg shadow-xl w-5/12 px-6 py-4">
-            <h3 className="mb-3 font-bold text-white text-xl">2007</h3>
-            <h4 className="text-lg font-semibold text-white">Title 2</h4>
-            <p className="text-sm leading-snug tracking-wide text-white text-opacity-100">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            </p>
-          </div>
-        </div>
-
+        {sortedEvents.length > 0 &&
+          sortedEvents.map((event, index) => (
+            <div
+              key={index}
+              className={`mb-8 flex items-center justify-between ${
+                index % 2 ? "flex-row-reverse" : ""
+              }`}
+            >
+              <div className="order-1 w-5/12"></div>
+              <div className="z-20 flex items-center order-1 bg-purple-500 shadow-xl w-8 h-8 rounded-full"></div>
+              <div className="order-1 bg-purple-500 rounded-lg shadow-xl w-5/12 px-6 py-4">
+                <h3 className="mb-3 font-bold text-white text-xl">
+                  {new Date(event.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </h3>
+                <h4 className="text-lg font-semibold text-white">
+                  {event.title}
+                </h4>
+                {event.picture && (
+                  <img src={event.picture} className="my-4" alt="" />
+                )}
+                <p className="text-sm leading-snug tracking-wide text-white text-opacity-100">
+                  {event.description}
+                </p>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );
