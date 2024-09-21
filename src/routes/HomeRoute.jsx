@@ -1,4 +1,4 @@
-import { LeftBar, RightBar, Loading, FootBar, Attedance } from "../utils";
+import { LeftBar, RightBar, Loading, FootBar, Attedance, More } from "../utils";
 import { Header } from "../components/Header";
 import {
   Home,
@@ -37,6 +37,7 @@ export const HomeRoute = () => {
             )}
             <Route path="/fee" element={<Fee />} />
             <Route path="/attendance" element={<Attedance />} />
+            <Route path="/more" element={<More />} />
             <Route path="/events" element={<Event />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="*" element={<Four04 />} />
