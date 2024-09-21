@@ -7,7 +7,7 @@ import {
   Fee,
   Event,
   Logout,
-  CourseReccomendation,
+  CourseRecommendation,
 } from "../pages";
 import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
@@ -32,7 +32,7 @@ export const HomeRoute = () => {
             {failedSubjects.length > 0 && (
               <Route
                 path="/recommendations"
-                element={<CourseReccomendation />}
+                element={<CourseRecommendation />}
               />
             )}
             <Route path="/fee" element={<Fee />} />

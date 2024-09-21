@@ -20,6 +20,7 @@ export const ResultsTable = () => {
   results.forEach(({ score, test_type, subject }) => {
     if (!subjects[subject.id]) {
       subjects[subject.id] = {
+        id: subject.id,
         name: subject.name,
         midExam: 0,
         test: 0,
@@ -49,19 +50,20 @@ export const ResultsTable = () => {
   const subjectArray = Object.values(subjects);
 
   useEffect(() => {
-    const failed = subjectArray.filter((subject) => {
-      const total = calculateTotal([
-        { score: subject.midExam },
-        { score: subject.test },
-        { score: subject.assignment },
-        { score: subject.final },
-      ]);
-      return determineStatus(total) === "Fail";
-    });
+    const failed = subjectArray
+      .filter((subject) => {
+        const total = calculateTotal([
+          { score: subject.midExam },
+          { score: subject.test },
+          { score: subject.assignment },
+          { score: subject.final },
+        ]);
+        return determineStatus(total) === "Fail";
+      })
+      .map((subject) => ({ id: subject.id, name: subject.name }));
 
     setFailedSubjects(failed);
   }, [results]);
-
 
   return (
     <div className="overflow-x-auto">
@@ -98,7 +100,7 @@ export const ResultsTable = () => {
             ]);
 
             return (
-              <tr key={subject.name}>
+              <tr key={subject.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center">
                   {subject.name}
                   <span
