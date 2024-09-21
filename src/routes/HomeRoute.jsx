@@ -1,4 +1,4 @@
-import { LeftBar, RightBar, Loading } from "../utils";
+import { LeftBar, RightBar, Loading, FootBar } from "../utils";
 import { Header } from "../components/Header";
 import {
   Home,
@@ -41,6 +41,7 @@ export const HomeRoute = () => {
             <Route path="*" element={<Four04 />} />
           </Routes>
         )}
+        <FootBar />
       </div>
       <RightBar />
     </div>
