@@ -47,7 +47,7 @@ export const Fee = () => {
 
   return (
     <div className="container mx-auto p-4 text-black h-full overflow-y-scroll">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between gap-4 items-center mb-6">
         <div className="flex items-center dark:text-white">
           <label htmlFor="sortType" className="mr-2 font-semibold">
             Sort by Type:
