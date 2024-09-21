@@ -81,7 +81,6 @@ export const Calendar = () => {
     const date = new Date(currentYear, currentMonth, day);
     const dateString = date.toDateString();
 
-    // Only allow selection if the date is in the future and not already a permission day
     if (date > today && !permissionDays.includes(dateString)) {
       setSelectedDate(date);
       setShowForm(true);
@@ -154,11 +153,16 @@ export const Calendar = () => {
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const handleFormSubmit = async (reason) => {
+    const submissionDate = new Date(selectedDate);
+
+    submissionDate.setHours(23, 59, 59, 999);
+
     const requestData = {
-      date: selectedDate.toISOString().split("T")[0],
+      date: submissionDate.toISOString().split("T")[0],
       reason: reason,
       student: student.id,
     };
+    console.log(requestData);
 
     try {
       const response = await fetch(`${backendUrl}api/permission-requests/`, {
@@ -174,16 +178,7 @@ export const Calendar = () => {
         const data = await response.json();
         console.log("Permission request submitted:", data);
 
-        // Update the state to include the selected date and the day before it
-        const updatedPermissionDays = [...permissionDays];
-        updatedPermissionDays.push(selectedDate.toDateString());
-
-        // Subtract one day from selectedDate
-        const dayBefore = new Date(selectedDate);
-        dayBefore.setDate(dayBefore.getDate() - 1);
-        updatedPermissionDays.push(dayBefore.toDateString());
-
-        setPermissionDays(updatedPermissionDays);
+        setPermissionDays((prev) => [...prev, submissionDate.toDateString()]);
       } else {
         console.error(
           "Failed to submit permission request:",

@@ -8,7 +8,7 @@ export const PermissionForm = ({ selectedDate, onClose, onSubmit }) => {
   };
 
   return (
-    <div className="mt-4 p-4 border border-gray-300 rounded-lg">
+    <div className="mt-4 p-4 text-black border border-gray-300 rounded-lg">
       <h3 className="text-lg font-semibold mb-2">
         Permission Request for {selectedDate.toDateString()}
       </h3>
@@ -21,13 +21,13 @@ export const PermissionForm = ({ selectedDate, onClose, onSubmit }) => {
         ></textarea>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded"
+          className="w-full bg-purple-500 text-white p-2 rounded"
         >
           Submit
         </button>
         <button
           type="button"
-          className="mt-2 w-full bg-red-500 text-white p-2 rounded"
+          className="mt-2 w-full bg-green-500 text-white p-2 rounded"
           onClick={onClose}
         >
           Cancel
