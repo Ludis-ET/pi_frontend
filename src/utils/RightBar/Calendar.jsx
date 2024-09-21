@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, StudentContext } from "../../context";
+import { PermissionForm } from "./PermissionForm";
 
 export const Calendar = () => {
   const today = new Date();
@@ -8,6 +9,7 @@ export const Calendar = () => {
   const { student } = useContext(StudentContext);
   const { authTokens } = useContext(AuthContext);
   const [absentDays, setAbsentDays] = useState([]);
+  const [permissionDays, setPermissionDays] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
@@ -28,8 +30,26 @@ export const Calendar = () => {
       );
       setAbsentDays(absentDates);
     };
+
+    const fetchPermissions = async () => {
+      const response = await fetch(
+        `${backendUrl}api/permission-requests/?student=${student.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authTokens.access}`,
+          },
+        }
+      );
+      const data = await response.json();
+      const permissionDates = data.map((item) =>
+        new Date(item.date).toDateString()
+      );
+      setPermissionDays(permissionDates);
+    };
+
     if (student) {
       fetchAbsents();
+      fetchPermissions();
     }
   }, [currentMonth, currentYear, student, authTokens, backendUrl]);
 
@@ -58,9 +78,11 @@ export const Calendar = () => {
   };
 
   const handleDayClick = (day) => {
-    const selectedDate = new Date(currentYear, currentMonth, day);
-    if (selectedDate > today) {
-      setSelectedDate(selectedDate);
+    const date = new Date(currentYear, currentMonth, day);
+    const dateString = date.toDateString();
+
+    if (date > today && !permissionDays.includes(dateString)) {
+      setSelectedDate(date);
       setShowForm(true);
     }
   };
@@ -88,6 +110,8 @@ export const Calendar = () => {
         currentMonth === today.getMonth() &&
         currentYear === today.getFullYear();
       const isAbsent = absentDays.includes(dateString);
+      const isPermission = permissionDays.includes(dateString);
+
       calendarDays.push(
         <span
           key={`current-${i}`}
@@ -95,6 +119,8 @@ export const Calendar = () => {
           className={`px-1 w-14 flex justify-center items-center border ${
             isAbsent
               ? "bg-red-500 text-white border-red-500 rounded-2xl shadow-md"
+              : isPermission
+              ? "bg-yellow-400 text-white border-yellow-400 rounded-2xl shadow-md"
               : isToday
               ? "bg-purple-500 text-white border-purple-500 rounded-2xl shadow-md"
               : "hover:border-purple-500 hover:text-purple-500 cursor-pointer"
@@ -125,9 +151,9 @@ export const Calendar = () => {
 
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission logic here
+  const handleFormSubmit = (reason) => {
+    console.log("Form submitted with reason:", reason);
+    // Handle your submission logic here
     setShowForm(false);
   };
 
@@ -136,13 +162,7 @@ export const Calendar = () => {
       <div className="w-full max-w-lg p-6 mx-auto bg-white rounded-2xl shadow-xl flex flex-col">
         <div className="flex justify-between pb-4">
           <div className="-rotate-90 cursor-pointer" onClick={prevMonth}>
-            <svg
-              width="12"
-              height="7"
-              viewBox="0 0 12 7"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
               <path
                 d="M11.001 6L6.00098 1L1.00098 6"
                 stroke="black"
@@ -157,13 +177,7 @@ export const Calendar = () => {
             {monthNames[currentMonth]} - {currentYear}
           </span>
           <div className="rotate-90 cursor-pointer" onClick={nextMonth}>
-            <svg
-              width="12"
-              height="7"
-              viewBox="0 0 12 7"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
               <path
                 d="M11.001 6L6.00098 1L1.00098 6"
                 stroke="black"
@@ -192,31 +206,11 @@ export const Calendar = () => {
         </div>
 
         {showForm && (
-          <div className="mt-4 p-4 border border-gray-300 rounded-lg">
-            <h3 className="text-lg font-semibold mb-2">
-              Permission Request for {selectedDate.toDateString()}
-            </h3>
-            <form onSubmit={handleFormSubmit}>
-              <textarea
-                className="w-full p-2 border rounded mb-2"
-                placeholder="Please provide your reason..."
-                required
-              ></textarea>
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded"
-              >
-                Submit
-              </button>
-              <button
-                type="button"
-                className="mt-2 w-full bg-red-500 text-white p-2 rounded"
-                onClick={() => setShowForm(false)}
-              >
-                Cancel
-              </button>
-            </form>
-          </div>
+          <PermissionForm
+            selectedDate={selectedDate}
+            onClose={() => setShowForm(false)}
+            onSubmit={handleFormSubmit}
+          />
         )}
       </div>
     </div>
