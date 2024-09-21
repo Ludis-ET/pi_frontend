@@ -1,9 +1,35 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext, StudentContext } from "../../context";
 
 export const Calendar = () => {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const { student } = useContext(StudentContext);
+  const { authTokens } = useContext(AuthContext);
+  const [absentDays, setAbsentDays] = useState([]);
+  const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
+
+  useEffect(() => {
+    const fetchAbsents = async () => {
+      const response = await fetch(
+        `${backendUrl}api/absents/?student=${student.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authTokens.access}`,
+          },
+        }
+      );
+      const data = await response.json();
+      const absentDates = data.map((item) =>
+        new Date(item.date).toDateString()
+      );
+      setAbsentDays(absentDates);
+    };
+    if (student) {
+      fetchAbsents();
+    }
+  }, [currentMonth, currentYear, student, authTokens, backendUrl]);
 
   const daysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
@@ -32,7 +58,6 @@ export const Calendar = () => {
   const getCalendarDays = () => {
     const daysInPrevMonth = daysInMonth(currentMonth - 1, currentYear);
     const daysInCurrentMonth = daysInMonth(currentMonth, currentYear);
-    const totalCalendarCells = firstDayOfMonth + daysInCurrentMonth;
     const calendarDays = [];
 
     for (let i = 0; i < firstDayOfMonth; i++) {
@@ -47,15 +72,19 @@ export const Calendar = () => {
     }
 
     for (let i = 1; i <= daysInCurrentMonth; i++) {
+      const dateString = new Date(currentYear, currentMonth, i).toDateString();
       const isToday =
         i === today.getDate() &&
         currentMonth === today.getMonth() &&
         currentYear === today.getFullYear();
+      const isAbsent = absentDays.includes(dateString);
       calendarDays.push(
         <span
           key={`current-${i}`}
           className={`px-1 w-14 flex justify-center items-center border ${
-            isToday
+            isAbsent
+              ? "bg-red-500 text-white border-red-500 rounded-2xl shadow-md"
+              : isToday
               ? "bg-purple-500 text-white border-purple-500 rounded-2xl shadow-md"
               : "hover:border-purple-500 hover:text-purple-500 cursor-pointer"
           }`}
