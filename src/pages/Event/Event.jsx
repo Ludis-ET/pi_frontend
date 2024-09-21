@@ -26,9 +26,9 @@ export const Event = () => {
                 index % 2 ? "flex-row-reverse" : ""
               }`}
             >
-              <div className="order-1 w-5/12"></div>
-              <div className="z-20 flex items-center order-1 bg-purple-500 shadow-xl w-8 h-8 rounded-full"></div>
-              <div className="order-1 bg-purple-500 rounded-lg shadow-xl w-5/12 px-6 py-4">
+              <div className="order-1 hidden lg:block lg:w-5/12"></div>
+              <div className="z-20 hidden lg:flex items-center order-1 bg-purple-500 shadow-xl w-8 h-8 rounded-full"></div>
+              <div className="order-1 bg-purple-500 rounded-lg shadow-xl lg:w-5/12 px-6 py-4">
                 <h3 className="mb-3 font-bold text-white text-xl">
                   {new Date(event.date).toLocaleDateString("en-US", {
                     year: "numeric",
