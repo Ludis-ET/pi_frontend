@@ -8,6 +8,8 @@ export const Calendar = () => {
   const { student } = useContext(StudentContext);
   const { authTokens } = useContext(AuthContext);
   const [absentDays, setAbsentDays] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
   const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
   useEffect(() => {
@@ -55,6 +57,14 @@ export const Calendar = () => {
     }
   };
 
+  const handleDayClick = (day) => {
+    const selectedDate = new Date(currentYear, currentMonth, day);
+    if (selectedDate > today) {
+      setSelectedDate(selectedDate);
+      setShowForm(true);
+    }
+  };
+
   const getCalendarDays = () => {
     const daysInPrevMonth = daysInMonth(currentMonth - 1, currentYear);
     const daysInCurrentMonth = daysInMonth(currentMonth, currentYear);
@@ -81,6 +91,7 @@ export const Calendar = () => {
       calendarDays.push(
         <span
           key={`current-${i}`}
+          onClick={() => handleDayClick(i)}
           className={`px-1 w-14 flex justify-center items-center border ${
             isAbsent
               ? "bg-red-500 text-white border-red-500 rounded-2xl shadow-md"
@@ -113,6 +124,12 @@ export const Calendar = () => {
   ];
 
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    // Handle form submission logic here
+    setShowForm(false);
+  };
 
   return (
     <div className="flex items-center justify-center px-2 mt-12">
@@ -173,6 +190,34 @@ export const Calendar = () => {
         <div className="grid grid-cols-7 gap-y-2 text-center">
           {getCalendarDays()}
         </div>
+
+        {showForm && (
+          <div className="mt-4 p-4 border border-gray-300 rounded-lg">
+            <h3 className="text-lg font-semibold mb-2">
+              Permission Request for {selectedDate.toDateString()}
+            </h3>
+            <form onSubmit={handleFormSubmit}>
+              <textarea
+                className="w-full p-2 border rounded mb-2"
+                placeholder="Please provide your reason..."
+                required
+              ></textarea>
+              <button
+                type="submit"
+                className="w-full bg-blue-500 text-white p-2 rounded"
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="mt-2 w-full bg-red-500 text-white p-2 rounded"
+                onClick={() => setShowForm(false)}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
