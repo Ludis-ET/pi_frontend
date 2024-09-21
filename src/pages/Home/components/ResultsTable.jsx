@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { StudentContext } from "../../../context";
 
 export const ResultsTable = () => {
-  const { results } = useContext(StudentContext);
+  const { results, setFailedSubjects } = useContext(StudentContext);
 
   if (!results) {
     return <div>Loading...</div>;
@@ -47,6 +47,21 @@ export const ResultsTable = () => {
   });
 
   const subjectArray = Object.values(subjects);
+
+  useEffect(() => {
+    const failed = subjectArray.filter((subject) => {
+      const total = calculateTotal([
+        { score: subject.midExam },
+        { score: subject.test },
+        { score: subject.assignment },
+        { score: subject.final },
+      ]);
+      return determineStatus(total) === "Fail";
+    });
+
+    setFailedSubjects(failed);
+  }, [results]);
+
 
   return (
     <div className="overflow-x-auto">

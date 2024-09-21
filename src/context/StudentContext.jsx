@@ -11,6 +11,7 @@ export const StudentProvider = ({ children }) => {
   const [students, setStudents] = useState([]);
   const [student, setStudent] = useState(null);
   const [results, setResults] = useState(null);
+  const [failedSubjects, setFailedSubjects] = useState([]);
 
   useEffect(() => {
     const getStudent = async () => {
@@ -87,6 +88,8 @@ export const StudentProvider = ({ children }) => {
     student,
     results,
     setStudent,
+    setFailedSubjects,
+    failedSubjects,
   };
 
   return (
