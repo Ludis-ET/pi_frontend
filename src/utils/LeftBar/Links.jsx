@@ -23,7 +23,7 @@ export const Links = () => {
             isActive ? `${cls} ${activeClass}` : cls
           }
         >
-          <i class="fa-brands fa-discourse"></i>
+          <i className="fa-brands fa-discourse"></i>
           <p>Recommendations</p>
         </NavLink>
       )}

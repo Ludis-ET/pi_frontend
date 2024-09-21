@@ -120,7 +120,7 @@ export const Notification = () => {
               </a>
             ))}
           </div>
-          <a
+          {/* <a
             href="#"
             className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white"
           >
@@ -136,7 +136,7 @@ export const Notification = () => {
               </svg>
               View all
             </div>
-          </a>
+          </a> */}
         </div>
       )}
     </div>
