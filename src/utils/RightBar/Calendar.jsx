@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, StudentContext } from "../../context";
 import { PermissionForm } from "./PermissionForm";
+import { toast } from "react-hot-toast";
 
 export const Calendar = () => {
   const today = new Date();
@@ -154,7 +155,6 @@ export const Calendar = () => {
 
   const handleFormSubmit = async (reason) => {
     const submissionDate = new Date(selectedDate);
-
     submissionDate.setHours(23, 59, 59, 999);
 
     const requestData = {
@@ -162,7 +162,6 @@ export const Calendar = () => {
       reason: reason,
       student: student.id,
     };
-    console.log(requestData);
 
     try {
       const response = await fetch(`${backendUrl}api/permission-requests/`, {
@@ -176,17 +175,13 @@ export const Calendar = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Permission request submitted:", data);
-
+        toast.success("Permission request submitted successfully!");
         setPermissionDays((prev) => [...prev, submissionDate.toDateString()]);
       } else {
-        console.error(
-          "Failed to submit permission request:",
-          response.statusText
-        );
+        toast.error("Failed to submit permission request.");
       }
     } catch (error) {
-      console.error("Error submitting permission request:", error);
+      toast.error("Error submitting permission request.");
     }
 
     setShowForm(false);
