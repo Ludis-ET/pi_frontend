@@ -15,7 +15,7 @@ export const PermissionForm = ({ selectedDate, onClose, onSubmit }) => {
       <form onSubmit={handleSubmit}>
         <textarea
           name="reason"
-          className="w-full p-2 border rounded mb-2"
+          className="w-full p-2 border bg-transparent outline-none rounded mb-2"
           placeholder="Please provide your reason..."
           required
         ></textarea>

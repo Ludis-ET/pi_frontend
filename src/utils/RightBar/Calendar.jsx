@@ -81,6 +81,7 @@ export const Calendar = () => {
     const date = new Date(currentYear, currentMonth, day);
     const dateString = date.toDateString();
 
+    // Only allow selection if the date is in the future and not already a permission day
     if (date > today && !permissionDays.includes(dateString)) {
       setSelectedDate(date);
       setShowForm(true);
@@ -104,7 +105,8 @@ export const Calendar = () => {
     }
 
     for (let i = 1; i <= daysInCurrentMonth; i++) {
-      const dateString = new Date(currentYear, currentMonth, i).toDateString();
+      const date = new Date(currentYear, currentMonth, i);
+      const dateString = date.toDateString();
       const isToday =
         i === today.getDate() &&
         currentMonth === today.getMonth() &&
@@ -151,9 +153,47 @@ export const Calendar = () => {
 
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const handleFormSubmit = (reason) => {
-    console.log("Form submitted with reason:", reason);
-    // Handle your submission logic here
+  const handleFormSubmit = async (reason) => {
+    const requestData = {
+      date: selectedDate.toISOString().split("T")[0],
+      reason: reason,
+      student: student.id,
+    };
+
+    try {
+      const response = await fetch(`${backendUrl}api/permission-requests/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authTokens.access}`,
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Permission request submitted:", data);
+
+        // Update the state to include the selected date and the day before it
+        const updatedPermissionDays = [...permissionDays];
+        updatedPermissionDays.push(selectedDate.toDateString());
+
+        // Subtract one day from selectedDate
+        const dayBefore = new Date(selectedDate);
+        dayBefore.setDate(dayBefore.getDate() - 1);
+        updatedPermissionDays.push(dayBefore.toDateString());
+
+        setPermissionDays(updatedPermissionDays);
+      } else {
+        console.error(
+          "Failed to submit permission request:",
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Error submitting permission request:", error);
+    }
+
     setShowForm(false);
   };
 
