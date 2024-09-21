@@ -2,12 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context";
 import { Loading } from "../../utils";
 
-export const Chat = ({ teacher }) => {
+export const Chat = ({ teacher, side }) => {
   const { authTokens, myprofile } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [chat, setChat] = useState([]);
   const [error, setError] = useState(null);
-  const [messageText, setMessageText] = useState(""); 
+  const [messageText, setMessageText] = useState("");
   const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
   useEffect(() => {
@@ -56,9 +56,8 @@ export const Chat = ({ teacher }) => {
     fetchChat();
   }, [backendUrl, teacher.id, myprofile.id]);
 
-  
   const sendMessage = async () => {
-    if (!messageText.trim()) return; 
+    if (!messageText.trim()) return;
     try {
       const messagePayload = {
         sender_type: "parent",
@@ -82,9 +81,8 @@ export const Chat = ({ teacher }) => {
 
       const newMessage = await response.json();
 
-     
       setChat((prevChat) => [...prevChat, newMessage]);
-      setMessageText(""); 
+      setMessageText("");
     } catch (error) {
       console.error("Send message error:", error);
       setError("Failed to send message");
@@ -104,7 +102,7 @@ export const Chat = ({ teacher }) => {
               Chatting with <b>{teacher.full_name}</b>
             </h2>
           </div>
-          <div className="messages flex-1 overflow-auto">
+          <div className="messages w-full flex-1 overflow-auto">
             {chat.map((message) => (
               <div
                 key={message.id}
@@ -148,42 +146,46 @@ export const Chat = ({ teacher }) => {
               </div>
             ))}
           </div>
-          <div className="flex-2 pt-4 pb-10">
-            <div className="write bg-white shadow flex rounded-lg">
-              <div className="flex-1">
-                <textarea
-                  name="message"
-                  className="w-full block outline-none py-4 px-4 bg-transparent"
-                  rows="1"
-                  placeholder="Type a message..."
-                  value={messageText} 
-                  onChange={(e) => setMessageText(e.target.value)} 
-                ></textarea>
-              </div>
-              <div className="flex-2 w-32 p-2 flex content-center items-center">
-                <div className="flex-1">
-                  <button
-                    className="bg-purple-400 w-10 h-10 rounded-full inline-block hover:bg-purple-500"
-                    onClick={sendMessage}
-                  >
-                    <span className="inline-block align-text-bottom">
-                      <svg
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        className="w-4 h-4 text-white"
+          {!side && (
+            <div className="flex-2 pt-4 pb-10 relative">
+              <div className="flex-2 pt-4 pb-10 absolute bottom-10 w-full z-[999] lg:bottom-0">
+                <div className="write shadow flex justify-between rounded-lg">
+                  <div className="flex-2">
+                    <textarea
+                      name="message"
+                      className="w-full block outline-none py-4 px-4 bg-transparent"
+                      rows="1"
+                      placeholder="Type a message..."
+                      value={messageText}
+                      onChange={(e) => setMessageText(e.target.value)}
+                    ></textarea>
+                  </div>
+                  <div className="p-2 flex content-center items-center">
+                    <div className="flex-1">
+                      <button
+                        className="bg-purple-400 w-10 h-10 rounded-full inline-block hover:bg-purple-500"
+                        onClick={sendMessage}
                       >
-                        <path d="M5 13l4 4L19 7"></path>
-                      </svg>
-                    </span>
-                  </button>
+                        <span className="inline-block align-text-bottom">
+                          <svg
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            className="w-4 h-4 text-white"
+                          >
+                            <path d="M5 13l4 4L19 7"></path>
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </>

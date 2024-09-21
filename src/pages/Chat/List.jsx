@@ -24,7 +24,7 @@ export const List = ({ setSelected, selected, side, setSide }) => {
         <></>
       ) : (
         <div
-          className={`sidebar dark:bg-gray-800 z-10 lg:w-1/3 absolute lg:relative bg-white w-full lg:flex  flex-2 flex-col pr-6`}
+          className={`sidebar dark:bg-gray-800 z-[9999] lg:w-1/3 absolute lg:relative bg-white w-full lg:flex  flex-2 flex-col pr-6`}
         >
           <div className="search flex-2 pb-6 px-2">
             <input
@@ -38,7 +38,9 @@ export const List = ({ setSelected, selected, side, setSide }) => {
           <div className="flex-1 h-full overflow-auto px-2">
             {filteredTeachers.length > 0 ? (
               filteredTeachers.map((teacher) => (
-                <div onClick={() => setSide(false)}>
+                <div
+                  onClick={() => window.innerWidth <= 1024 && setSide(false)}
+                >
                   <div
                     key={teacher.id}
                     onClick={() => setSelected(teacher)}

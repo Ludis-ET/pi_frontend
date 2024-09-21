@@ -6,7 +6,6 @@ import { Chat } from "./Chat";
 export const Discussion = () => {
   const [selected, setSelected] = useState(null);
   const [side, setSide] = useState(true);
-  console.log(side);
   return (
     <div className="w-full h-screen text-black ">
       <div className="flex h-full">
@@ -54,7 +53,7 @@ export const Discussion = () => {
                     <img src={chat} className=" w-72" alt="" />
                   </div>
                 ) : (
-                  <Chat teacher={selected} />
+                  <Chat teacher={selected} side={side} />
                 )}
               </div>
             </div>
